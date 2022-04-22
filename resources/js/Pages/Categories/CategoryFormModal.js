@@ -6,13 +6,15 @@ import slugify from 'slugify';
 import LoadingButton from '../../Shared/LoadingButton';
 import { useEffect } from 'react';
 import { Inertia } from '@inertiajs/inertia';
+import SingleFileUpload from '../../Shared/SingleFileUpload';
 
 const CreateCategoryModal = (props) => {
 
     const { data, setData, errors, post, put, processing } = useForm ({
         name: "",
         slug: "",
-        description:""
+        description:"",
+        imageUrl:null
     });
 
     const {editing, curCategory} = usePage().props;
@@ -74,6 +76,12 @@ const CreateCategoryModal = (props) => {
     title="Create New Category"
     >
         <form onSubmit={handleSubmit}>
+           <div>
+                <label>
+                    Category Image:
+                </label>
+                <SingleFileUpload onFileUpload={(file) => setData('imageUrl',file)} />
+           </div>
             <TextInput
                 className="w-full pb-2 pr-6"
                 label="Title"

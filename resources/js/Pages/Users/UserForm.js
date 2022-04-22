@@ -5,7 +5,7 @@ import Layout from "../../Shared/Layout";
 import { PasswordInput, TextInput} from "@mantine/core";
 import RoleSelect from "./RoleSelect";
 import { useEffect } from "react";
-import { Inertia } from "@inertiajs/inertia";
+import SingleFileUpload from "../../Shared/SingleFileUpload";
 
 const UserForm = (props) => {
     const {editing, user} = props;
@@ -16,6 +16,7 @@ const UserForm = (props) => {
         password:"",
         password_confirmation:"",
         role:"",
+        image_url:null
     });
 
     useEffect(()=>{
@@ -40,13 +41,6 @@ const UserForm = (props) => {
         }
     }
 
-    const onPasswordResetClicked = ()=>{
-        if(editing && user.email){
-            console.log("INSIDE INErtia post");
-            Inertia.post(route('password.email'),{'email':user.email});
-        }
-    }
-
   return (
     <div className="h-full">
     <h1 className="mb-8 text-3xl font-bold">
@@ -59,57 +53,73 @@ const UserForm = (props) => {
         <span className="font-medium text-indigo-600"> /</span> {editing ? "Edit":"Create"}
     </h1>
     <div className=" overflow-hidden bg-white rounded shadow">
-        <form onSubmit={handleSubmit}>
-            <div className="flex flex-wrap p-8 -mb-8 -mr-6">
-                <TextInput
-                    className="w-full pb-2 pr-6 lg:w-1/3"
-                    label="Name"
-                    error={errors.name || false}
-                    value={data.name}
-                    onChange={e => setData("name", e.target.value)}
-                    placeholder="John Smith"
-                    required
-                />
-                <TextInput
-                    className="w-full pb-2 pr-6 lg:w-1/3"
-                    label="Slogan (optional)"
-                    error={errors.slogan || false}
-                    value={data.slogan}
-                    onChange={e => setData("slogan", e.target.value)}
-                    placeholder="Author at Blogname"
-                />
-               <RoleSelect value={data.role} onChange={val => setData("role", val)} error={errors.role} />
-                <TextInput
-                    className="w-full pb-2 pr-6 lg:w-1/3"
-                    label="Email"
-                    type="email"
-                    error={errors.email || false}
-                    value={data.email}
-                    onChange={e => setData("email", e.target.value)}
-                    placeholder="name@example.com"
-                />
-                {!editing &&
-                    <>
-                        <PasswordInput
-                            className="w-full pb-2 pr-6 lg:w-1/3"
-                            placeholder="Password"
-                            label="Password"
-                            required={!editing}
-                            error={errors.password || false}
-                            value={data.password}
-                            onChange={e => setData("password", e.target.value)}
+        <form onSubmit={handleSubmit} className=" p-8 -mb-8 -mr-6">
+                <div className="grid w-full grid-cols-12">
+                    <div className="col-span-3">
+                        <div className="w-full p-4 text-center">
+                            <label className="mb-3">Profile Picture</label>
+                            <SingleFileUpload
+                                stylePanelLayout="circle"
+                                onFileUpload={(file) => setData('image_url',file)}
+                            />
+                        </div>
+                    </div>
+                    <div className="col-span-8 flex flex-wrap">
+                        <TextInput
+                            className="w-full pb-2 pr-4 lg:w-1/2"
+                            label="Name"
+                            error={errors.name || false}
+                            value={data.name}
+                            onChange={e => setData("name", e.target.value)}
+                            placeholder="John Smith"
+                            required
                         />
-                        <PasswordInput
-                            className="w-full pb-2 pr-6 lg:w-1/3"
-                            placeholder="Password"
-                            label="Confirm Password"
-                            required={!editing}
-                            error={errors.password_confirmation || false}
-                            value={data.password_confirmation}
-                            onChange={e => setData("password_confirmation", e.target.value)}
+                        <TextInput
+                            className="w-full pb-2 pr-6 lg:w-1/2"
+                            label="Slogan (optional)"
+                            error={errors.slogan || false}
+                            value={data.slogan}
+                            onChange={e => setData("slogan", e.target.value)}
+                            placeholder="Author at Blogname"
                         />
-                    </>
-                }
+                        <RoleSelect value={data.role} onChange={val => setData("role", val)} error={errors.role} />
+                        <TextInput
+                            className="w-full pb-2 pr-6 lg:w-1/2"
+                            label="Email"
+                            type="email"
+                            error={errors.email || false}
+                            value={data.email}
+                            onChange={e => setData("email", e.target.value)}
+                            placeholder="name@example.com"
+                        />
+                        {!editing &&
+                            <>
+                                <PasswordInput
+                                    className="w-full pb-2 pr-6 lg:w-1/2"
+                                    placeholder="Password"
+                                    label="Password"
+                                    required={!editing}
+                                    error={errors.password || false}
+                                    value={data.password}
+                                    onChange={e => setData("password", e.target.value)}
+                                />
+                                <PasswordInput
+                                    className="w-full pb-2 pr-6 lg:w-1/2"
+                                    placeholder="Password"
+                                    label="Confirm Password"
+                                    required={!editing}
+                                    error={errors.password_confirmation || false}
+                                    value={data.password_confirmation}
+                                    onChange={e => setData("password_confirmation", e.target.value)}
+                                />
+                            </>
+                        }
+                    </div>
+
+
+
+
+
             </div>
 
             <div className="flex items-center justify-end px-8 py-4 bg-gray-100 border-t border-gray-200">

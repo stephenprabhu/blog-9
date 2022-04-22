@@ -49,6 +49,11 @@ class UserController extends Controller
     public function store(UserStoreRequest $request)
     {
         $validated = $request->validated();
+        if($request->hasFile('image_url')){
+            $path = $request->file('image_url')->store('public/users');
+            $validated['image_url']=$path;
+        }
+
         $validated['password']= Hash::make($validated['password']);
         User::create($validated);
         return redirect()->route('users.index')->with('success','User Successfully Created');

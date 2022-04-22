@@ -3,7 +3,7 @@ import {MdEditNote, MdOutlineDeleteSweep, MdOutlineCancel, MdLockOutline} from "
 import { useState } from "react";
 import DeleteConfirmationModal from "../../Shared/DeleteConfirmationModal";
 import { Inertia } from "@inertiajs/inertia";
-
+import imagePathHelper from "../../helpers/ImagePathHelper";
 const UserRow = ({user,index}) => {
     const [deleteDialogOpened, setDeleteDialogOpened]= useState(false);
 
@@ -21,7 +21,13 @@ const UserRow = ({user,index}) => {
         <td className='border-t py-2 px-2'>
             {index+1}
         </td>
-        <td></td>
+        <td>
+            {user.image_url &&
+                <img src={imagePathHelper(user.image_url)}
+                    width="100px"
+                    height="100px"
+                    style={{objectFit:'cover', borderRadius:"50%"}}  alt="User Profile" />}
+        </td>
         <td className='border-t py-2 px-2'>
             {user.name}
         </td>

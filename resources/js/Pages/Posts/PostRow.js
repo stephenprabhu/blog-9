@@ -6,9 +6,11 @@ import { Inertia } from "@inertiajs/inertia";
 import moment from "moment";
 import Badge from "../../Shared/Badge";
 import DeleteConfirmationModal from "../../Shared/DeleteConfirmationModal";
+import imagePathHelper from "../../helpers/ImagePathHelper";
 
 const PostRow = ({post, index}) => {
     const [deleteDialogOpened, setDeleteDialogOpened]= useState(false);
+
 
     const onEditMenuClicked =()=>{
         Inertia.get(route('posts.edit',post.id));
@@ -24,7 +26,11 @@ const PostRow = ({post, index}) => {
         className="hover:bg-gray-100 focus-within:bg-gray-100"
     >
     <td className="pl-3">{index + 1}</td>
-    <td></td>
+    <td className="border-t py-2 px-2">
+        {post.featured_image &&
+            <img src={imagePathHelper(post.featured_image)} width="100px" height="100px" style={{objectFit:'cover'}}  alt="Post Featured" />
+        }
+    </td>
     <td className="border-t py-2 px-2">
         {post.title}
     </td>

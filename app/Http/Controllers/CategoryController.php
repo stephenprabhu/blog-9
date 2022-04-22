@@ -44,6 +44,12 @@ class CategoryController extends Controller
             'slug'=>['required','unique:categories,slug'],
             'description'=>['nullable']
         ]);
+
+        if($request->hasFile('imageUrl')){
+            $path = $request->file('imageUrl')->store('public/categories/');
+            $validated['imageUrl']=$path;
+        }
+
         Category::create($validated);
         return redirect()->back()->with('success','Category Successfully Created');
     }

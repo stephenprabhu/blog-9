@@ -40,7 +40,7 @@ const RoleSelect = ({value, onChange, error}) => {
   return (
     <Select
         required
-        className="w-full pb-2 pr-6 lg:w-1/3"
+        className="w-full pb-2 pr-6 lg:w-1/2"
         label="Role"
         placeholder="Pick one"
         itemComponent={SelectItem}

@@ -51,6 +51,13 @@ class PostController extends Controller
     public function store(PostSubmitRequest $request)
     {
         $validated = $request->validated();
+
+        if($request->hasFile('featured_image')){
+            $path = $request->file('featured_image')->store('public/posts/featured_images');
+            $validated['featured_image']=$path;
+        }
+
+       // eslint-disable-next-line
         $post = Auth::user()->posts()->create($validated);
 
         $post->attachTags($request->tags);

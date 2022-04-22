@@ -9,19 +9,12 @@ import { ActionIcon, Select, Textarea, MultiSelect } from "@mantine/core";
 import CreateCategoryModal from "../Categories/CategoryFormModal";
 import {MdAdd} from "react-icons/md";
 import { DatePicker } from '@mantine/dates';
-import { FilePond, registerPlugin } from 'react-filepond';
-import 'filepond/dist/filepond.min.css';
-import * as FilePondLib from 'filepond';
+import SingleFileUpload from "../../Shared/SingleFileUpload";
 
-import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 
 // Import the plugin styles
-import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
-
-FilePondLib.registerPlugin(FilePondPluginImagePreview);
 
 const Create = (props) => {
-
     const [categoryFormModalOpened, setCategoryFormModalOpened]=useState(false);
     const [showAdvanced, setShowAdvanced] = useState(false);
 
@@ -35,7 +28,8 @@ const Create = (props) => {
         meta_description: "",
         meta_keywords: "",
         snippet: "",
-        tags: []
+        tags: [],
+        featured_image:null
     });
 
 
@@ -96,6 +90,7 @@ const Create = (props) => {
         if(editing){
             put(route("posts.update", article));
         }else{
+            console.log(data.featured_image);
             post(route("posts.store"));
         }
     }
@@ -118,14 +113,7 @@ const Create = (props) => {
                 <form onSubmit={handleSubmit}>
                     <div className="flex flex-wrap p-8 -mb-8 -mr-6">
                             <div className="w-full pb-2 pr-6 lg:w-1/2">
-                            <FilePond
-                                onupdatefiles={(fileItems) => {
-                                console.log(fileItems);
-                                }}
-                                storeAsFile={true}
-                                credits={{}}
-                                allowImagePreview={true}
-                            />
+                                <SingleFileUpload onFileUpload={(file) => setData('featured_image',file)} />
                             </div>
                         <TextInput
                             className="w-full pb-2 pr-6 lg:w-1/2"
