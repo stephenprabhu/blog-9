@@ -2,6 +2,7 @@ import React from 'react'
 import MainMenuItem from './MainMenuItem';
 import {MdDashboard, MdArticle, MdInsertComment, MdCategory, MdOutlineTag, MdSupervisedUserCircle,MdOutlineSettingsApplications } from "react-icons/md";
 import { usePage } from '@inertiajs/inertia-react';
+import {FaGlobe} from "react-icons/fa";
 const MainMenu = ({className}) => {
     const { auth } = usePage().props;
 
@@ -14,6 +15,8 @@ const MainMenu = ({className}) => {
         <MainMenuItem text="Tags" link="tags.index" icon={MdOutlineTag} />
         {auth.user.data.role === 2 && <MainMenuItem text="Users" link="users.index" icon={MdSupervisedUserCircle} />}
         <MainMenuItem text="Settings" link="dashboard" icon={MdOutlineSettingsApplications} />
+        <MainMenuItem text="Website" link="index" icon={FaGlobe} />
+
     </div>
   )
 }

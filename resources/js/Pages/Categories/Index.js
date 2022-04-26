@@ -30,22 +30,26 @@ const CategoryIndex = ({categories,editing}) => {
                 </Link>
             </div>
           <div className="overflow-x-auto bg-white rounded shadow">
-                <table className="w-full whitespace-nowrap ">
-                    <thead>
-                        <tr className="font-bold text-left ">
-                            <th className=" pt-2 pl-3 pb-2">#</th>
-                            <th className=" pt-2 pb-2">Image</th>
-                            <th className="pt-2 pb-2">Name</th>
-                            <th className=" pt-2 pb-2">Description</th>
-                            <th className=" pt-2 pb-2">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {data.map((category, index)=>(
-                            <CategoryRow category={category} key={index} index={index} />
-                        ))}
-                    </tbody>
-                </table>
+               {data && data.length > 0 ?
+                    <table className="w-full whitespace-nowrap ">
+                        <thead>
+                            <tr className="font-bold text-left ">
+                                <th className=" pt-2 pl-3 pb-2">#</th>
+                                <th className=" pt-2 pb-2">Image</th>
+                                <th className="pt-2 pb-2">Name</th>
+                                <th className=" pt-2 pb-2">Description</th>
+                                <th className=" pt-2 pb-2">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {data.map((category, index)=>(
+                                <CategoryRow category={category} key={index} index={index} />
+                            ))}
+                        </tbody>
+                    </table>
+                :
+                    <p className='mx-3 my-6 text-lg'>No Categories Found. Click <span className='font-bold'>Create Category</span> To Create One.</p>
+                }
             </div>
             <CreateCategoryModal opened={categoryFormModalOpened} setOpened={setCategoryFormModalOpened} />
     </div>

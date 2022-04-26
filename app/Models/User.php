@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Storage;
 
 class User extends Authenticatable
 {
@@ -58,5 +60,11 @@ class User extends Authenticatable
                     ->orWhere('slogan', 'like', '%'.$search.'%');
             });
         });
+    }
+
+    public function imageUrl(): Attribute {
+        return Attribute::make(
+            get: fn ($value) => $value ? Storage::url($value) : null
+        );
     }
 }

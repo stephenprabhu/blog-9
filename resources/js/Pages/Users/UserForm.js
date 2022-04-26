@@ -6,10 +6,10 @@ import { PasswordInput, TextInput} from "@mantine/core";
 import RoleSelect from "./RoleSelect";
 import { useEffect } from "react";
 import SingleFileUpload from "../../Shared/SingleFileUpload";
-
+import { Inertia } from "@inertiajs/inertia";
 const UserForm = (props) => {
     const {editing, user} = props;
-    const { data, setData, errors, post, put, processing } = useForm({
+    const { data, setData, errors, post, processing } = useForm({
         name: "",
         slogan:"",
         email:"",
@@ -35,7 +35,10 @@ const UserForm = (props) => {
     const handleSubmit = (e)=>{
         e.preventDefault();
         if(editing){
-            put(route("users.update", user));
+            Inertia.post(route("users.update", user), {
+                _method: 'put',
+                ...data
+              });
         }else{
             post(route("users.store"));
         }
@@ -60,7 +63,8 @@ const UserForm = (props) => {
                             <label className="mb-3">Profile Picture</label>
                             <SingleFileUpload
                                 stylePanelLayout="circle"
-                                onFileUpload={(file) => setData('image_url',file)}
+                                imagePath={editing ? user.image_url : null}
+                                onFileUpload={(file) => setData(prevData => ({...prevData, 'image_url':file}))}
                             />
                         </div>
                     </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
@@ -45,9 +46,9 @@ class CategoryController extends Controller
             'description'=>['nullable']
         ]);
 
-        if($request->hasFile('imageUrl')){
-            $path = $request->file('imageUrl')->store('public/categories/');
-            $validated['imageUrl']=$path;
+        if($request->hasFile('image_url')){
+            $path = $request->file('image_url')->store('public/categories/');
+            $validated['image_url']=$path;
         }
 
         Category::create($validated);
@@ -95,6 +96,16 @@ class CategoryController extends Controller
             'slug'=>['required',Rule::unique('categories','slug')->ignore($category)],
             'description'=>['nullable']
         ]);
+
+        if($category->image_url){
+            Storage::disk('local')->delete($category->image_url);
+        }
+
+        if($request->hasFile('image_url')){
+            $path = $request->file('image_url')->store('public/categories/');
+            $validated['image_url']=$path;
+        }
+
         $category->update($validated);
         return redirect()->route('categories.index')->with('success','Category Updated');
     }

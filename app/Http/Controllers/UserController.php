@@ -7,6 +7,7 @@ use App\Http\Requests\UserUpdateRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -93,7 +94,17 @@ class UserController extends Controller
      */
     public function update(UserUpdateRequest $request, User $user)
     {
-        $user->update($request->validated());
+        if($user->image_url){
+            Storage::disk('local')->delete($user->image_url);
+        }
+        $validated = $request->validated();
+
+        if($request->hasFile('image_url')){
+            $path = $request->file('image_url')->store('public/users');
+            $validated['image_url']=$path;
+        }
+
+        $user->update($validated);
         return redirect()->route('users.index')->with('success','User Successfully Updated');
     }
 

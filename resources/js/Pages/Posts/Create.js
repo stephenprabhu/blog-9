@@ -10,6 +10,7 @@ import CreateCategoryModal from "../Categories/CategoryFormModal";
 import {MdAdd} from "react-icons/md";
 import { DatePicker } from '@mantine/dates';
 import SingleFileUpload from "../../Shared/SingleFileUpload";
+import { Inertia } from "@inertiajs/inertia";
 
 
 // Import the plugin styles
@@ -18,7 +19,7 @@ const Create = (props) => {
     const [categoryFormModalOpened, setCategoryFormModalOpened]=useState(false);
     const [showAdvanced, setShowAdvanced] = useState(false);
 
-    const { data, setData, errors, post, put, processing } = useForm({
+    const { data, setData, errors, post, processing } = useForm({
         title: "",
         slug:"",
         published:"published",
@@ -29,7 +30,7 @@ const Create = (props) => {
         meta_keywords: "",
         snippet: "",
         tags: [],
-        featured_image:null
+        featured_image: null
     });
 
 
@@ -53,7 +54,7 @@ const Create = (props) => {
                 meta_description: article.meta_description,
                 meta_keywords: article.meta_keywords,
                 snippet:  article.snippet,
-                tags: editTags
+                tags: editTags,
             });
         }
     },[editing, article]);
@@ -88,9 +89,11 @@ const Create = (props) => {
     function handleSubmit(e) {
         e.preventDefault();
         if(editing){
-            put(route("posts.update", article));
+            Inertia.post(route("posts.update", article), {
+                _method: 'put',
+                ...data
+              });
         }else{
-            console.log(data.featured_image);
             post(route("posts.store"));
         }
     }
@@ -98,6 +101,7 @@ const Create = (props) => {
     const textCleaner = (text, length)=>{
         return text.replace(/<\/?[^>]+(>|$)/g, "").replace("&nbsp;", " ").slice(0,length);
     }
+
     return (
         <div className="h-full">
             <h1 className="mb-8 text-3xl font-bold">
@@ -112,25 +116,36 @@ const Create = (props) => {
             <div className="bg-white rounded shadow z-30 overflow-visible">
                 <form onSubmit={handleSubmit}>
                     <div className="flex flex-wrap p-8 -mb-8 -mr-6">
-                            <div className="w-full pb-2 pr-6 lg:w-1/2">
-                                <SingleFileUpload onFileUpload={(file) => setData('featured_image',file)} />
+                        <div className="grid grid-cols-12 w-full">
+                            <div className="col-span-6">
+                                <TextInput
+                                    className="w-full pb-2 pr-6 "
+                                    label="Title"
+                                    name="title"
+                                    errors={errors.title}
+                                    value={data.title}
+                                    onChange={onTitleInputChanged}
+                                />
+                                <TextInput
+                                    className="w-full pb-2 pr-6 "
+                                    label="Slug"
+                                    name="slug"
+                                    errors={errors.slug}
+                                    value={data.slug}
+                                    onChange={e=> setData("slug", e.target.value) }
+                                />
                             </div>
-                        <TextInput
-                            className="w-full pb-2 pr-6 lg:w-1/2"
-                            label="Title"
-                            name="title"
-                            errors={errors.title}
-                            value={data.title}
-                            onChange={onTitleInputChanged}
-                        />
-                        <TextInput
-                            className="w-full pb-2 pr-6 lg:w-1/2"
-                            label="Slug"
-                            name="slug"
-                            errors={errors.slug}
-                            value={data.slug}
-                            onChange={e=> setData("slug", e.target.value) }
-                        />
+                            <div className="col-span-6">
+                                <div className="w-full pb-2 pr-6">
+                                    <label className="mb-2">Featured Image:</label>
+                                    <SingleFileUpload
+                                        onFileUpload={(file) => setData(prevData => ({...prevData, 'featured_image':file}))}
+                                        imagePath={editing ? article.featured_image : null}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
                         <div className="w-full grid grid-cols-2 gap-4 mr-6">
                         <Select
                             label="Category"
@@ -220,6 +235,7 @@ const Create = (props) => {
                         <button className="btn-secondary mr-3" type="button" onClick={() => setShowAdvanced(show => !show)}>
                             {showAdvanced ? "Hide": "Show"} Advanced
                         </button>
+                        <a href="#" class="btn-indigo mr-3">Show Preview</a>
                         <LoadingButton
                             loading={processing}
                             type="submit"

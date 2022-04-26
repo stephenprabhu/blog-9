@@ -14,7 +14,7 @@ const CreateCategoryModal = (props) => {
         name: "",
         slug: "",
         description:"",
-        imageUrl:null
+        image_url:null
     });
 
     const {editing, curCategory} = usePage().props;
@@ -35,7 +35,10 @@ const CreateCategoryModal = (props) => {
     function handleSubmit(e) {
         e.preventDefault();
         if(editing){
-            put(route("categories.update", curCategory));
+            Inertia.post(route("categories.update", curCategory), {
+                _method: 'put',
+                ...data
+              });
         }else{
             post(route("categories.store"));
         }
@@ -80,7 +83,9 @@ const CreateCategoryModal = (props) => {
                 <label>
                     Category Image:
                 </label>
-                <SingleFileUpload onFileUpload={(file) => setData('imageUrl',file)} />
+                <SingleFileUpload
+                    imagePath={editing && curCategory ? curCategory.image_url : null}
+                    onFileUpload={(file) => setData(prevData => ({...prevData, 'image_url':file}))} />
            </div>
             <TextInput
                 className="w-full pb-2 pr-6"

@@ -4,7 +4,6 @@ import { Menu } from '@mantine/core';
 import { Inertia } from "@inertiajs/inertia";
 import { useState } from "react";
 import DeleteConfirmationModal from "../../Shared/DeleteConfirmationModal";
-import imagePathHelper from "../../helpers/ImagePathHelper";
 
 const CategoryRow = ({category, index}) => {
     const [deleteDialogOpened, setDeleteDialogOpened]= useState(false);
@@ -21,9 +20,9 @@ const CategoryRow = ({category, index}) => {
     <tr className="hover:bg-gray-100 focus-within:bg-gray-100">
     <td className="pl-3">{index + 1}</td>
     <td className="border-t py-2 px-2">
-        {category.imageUrl &&
+        {category.image_url &&
             <img
-                src={imagePathHelper(category.imageUrl)}
+                src={category.image_url}
                 width="100px"
                 height="100px"
                 style={{objectFit:'cover'}}

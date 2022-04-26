@@ -28,7 +28,7 @@ const PostRow = ({post, index}) => {
     <td className="pl-3">{index + 1}</td>
     <td className="border-t py-2 px-2">
         {post.featured_image &&
-            <img src={imagePathHelper(post.featured_image)} width="100px" height="100px" style={{objectFit:'cover'}}  alt="Post Featured" />
+            <img src={post.featured_image} width="100px" height="100px" style={{objectFit:'cover'}}  alt="Post Featured" />
         }
     </td>
     <td className="border-t py-2 px-2">

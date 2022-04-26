@@ -39,6 +39,6 @@ class LoginController extends Controller
     }
 
     public function showLoginForm(){
-        return inertia('Auth/Login');
+        return view('auth.login');
     }
 }
