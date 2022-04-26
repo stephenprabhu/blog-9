@@ -9,7 +9,7 @@
                     <h1>{{$post->title}}</h1>
                     <ul class="post-tags">
                         <li> {{ \Carbon\Carbon::parse($post->published_date)->diffForHumans() }}</li>
-                        <li><a href="#">3 comments</a></li>
+                        <li><a href="#">{{$post->comments->count()}} comments</a></li>
                     </ul>
                 </div>
                 <div class="single-post-content">
@@ -88,56 +88,60 @@
                 <!-- comments -->
                 <div class="comments">
                     <h2 class="comments-title">
-                        2 Comments
+                        {{$post->comments->count()}} Comments
                     </h2>
-                    <ul class="comments__list">
-                        <li class="comments__list-item">
-                            <img class="comments__list-item-image" src="{{ asset('images/upload/single/th1.jpg')}}" alt="">
-                            <div class="comments__list-item-content">
-                                <h3 class="comments__list-item-title">
-                                    Philip W
-                                </h3>
-                                <span class="comments__list-item-date">
-                                    Posted October 7, 2018
-                                </span>
-                                <a class="comments__list-item-reply" href="#">
-                                    <i class="la la-mail-forward"></i>
-                                    Reply
-                                </a>
-                                <p class="comments__list-item-description">
-                                    Phasellus hendrerit. Pellentesque aliquet nibh nec urna. In nisi neque, aliquet vel, dapibus id, mattis vel, nisi. Sed pretium, ligula sollicitudin laoreet viverra, tortor libero sodales leo, eget blandit nunc tortor eu nibh. Nullam mollis. Ut justo. Suspendisse potenti.
-                                </p>
-                            </div>
-                        </li>
-                        <li class="comments__list-item">
-                            <img class="comments__list-item-image" src="{{ asset('images/upload/single/th2.jpg')}}" alt="">
-                            <div class="comments__list-item-content">
-                                <h3 class="comments__list-item-title">
-                                    Philip W
-                                </h3>
-                                <span class="comments__list-item-date">
-                                    Posted October 7, 2018
-                                </span>
-                                <a class="comments__list-item-reply" href="#">
-                                    <i class="la la-mail-forward"></i>
-                                    Reply
-                                </a>
-                                <p class="comments__list-item-description">
-                                    Phasellus hendrerit. Pellentesque aliquet nibh nec urna. In nisi neque, aliquet vel, dapibus id, mattis vel, nisi. Sed pretium, ligula sollicitudin laoreet viverra, tortor libero sodales leo, eget blandit nunc tortor eu nibh. Nullam mollis. Ut justo. Suspendisse potenti.
-                                </p>
-                            </div>
-                        </li>
-                    </ul>
+                    @if($post->comments->count())
+                        <ul class="comments__list">
+                            @foreach ($post->comments as $comment)
+                                <li class="comments__list-item">
+                                    <img class="comments__list-item-image" src="{{ $comment->user->image_url ?? asset('images/upload/single/th1.jpg')}}" alt="">
+                                    <div class="comments__list-item-content">
+                                        <h3 class="comments__list-item-title">
+                                            {{$comment->user->name}}
+                                        </h3>
+                                        <span class="comments__list-item-date">
+                                            Posted October 7, 2018
+                                        </span>
+                                        <p class="comments__list-item-description">
+                                            {{$comment->message}}
+                                        </p>
+                                       @if (Auth::check() && Auth::user()->id == $comment->user_id)
+                                            <div>
+                                                <a href="?edit={{$comment->id}}#comment-form" style="color:#E74C3C" >Edit</a> |
+                                                <form
+                                                    style="display: inline"
+                                                    action="{{ route('comments.delete', ['post'=>$post, 'comment'=> $comment]) }}"
+                                                    method="POST"
+                                                    onsubmit="return confirm('Are You Sure You Wish To Delete This Comment? This Cannot be undone.')"
+                                                >
+                                                        @csrf @method('DELETE')
+                                                        <button type="submit" style="color:#E74C3C; background:none; border:none">Delete</button>
+                                                </form>
+                                            </div>
+                                       @endif
+                                    </div>
+                                </li>
+                            @endforeach
+                        </ul>
+                    @else
+                        <p class="text-center">No Comments Yet. Be The First One.</p>
+                    @endif
                 </div>
                 <!-- end comments -->
 
                 <!-- Contact form module -->
-                <form class="contact-form" id="comment-form">
+                <form class="contact-form" action="{{$editComment ? route('comments.update',['post'=>$post, 'comment'=>$editComment]) : route('comments.store',$post) }}" id="comment-form" method="POST">
+                    @csrf
+
+                    @if($editComment)
+                        @method('PUT')
+                    @endif
+
                     <h2 class="contact-form__title">
                         Write a Comment
                     </h2>
-                    <textarea class="contact-form__textarea" name="comment" id="comment" placeholder="Comment"></textarea>
-                    <input class="contact-form__submit" type="submit" name="submit-contact" id="submit_contact" value="Post Comment" />
+                    <textarea class="contact-form__textarea" name="message" id="comment" placeholder="Comment">{{$editComment ? $editComment->message : ''}}</textarea>
+                    <button class="contact-form__submit" type="submit" >Post Comment</button>
                 </form>
                 <!-- End Contact form module -->
 

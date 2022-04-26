@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Request as IlluminateRequest;
+
 
 class HomeController extends Controller
 {
@@ -19,20 +22,33 @@ class HomeController extends Controller
         return view('front.home.index', compact('featuredPosts','recentPosts', 'trendingPosts'));
     }
 
-    public function archive(){
+    public function archive(Request $request){
         $posts = Post::latest()
                         ->with('category')
                         ->with('author')
+                        ->with('comments')
+                        ->filter(IlluminateRequest::only('category','author'))
                         ->select(array_merge($this->simplePostItems,array('snippet')))
                         ->paginate(9);
-        return view('front.home.archive',compact('posts'));
+
+        $title = 'All Articles';
+        return view('front.home.archive',compact('posts','title'));
     }
 
     public function contact(){
         return view('front.home.contact');
     }
 
-    public function post(Post $post){
-        return view('front.home.post', compact('post'));
+    public function post(Request $request, Post $post){
+        $editCommentId = $request->get('edit');
+        $editComment = null;
+        if($editCommentId){
+            $comment = Comment::find($editCommentId);
+            if($comment){
+                $editComment = $comment;
+            }
+        }
+        return view('front.home.post', compact('post','editComment'));
     }
+
 }

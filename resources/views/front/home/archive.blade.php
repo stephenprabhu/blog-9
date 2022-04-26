@@ -3,7 +3,7 @@
 @section('content')
     <section class="page-banner-section">
         <div class="container">
-            <h1>All Articles</h1>
+            <h1>{{$title ?? 'All Articles'}}</h1>
         </div>
     </section>
 
@@ -22,11 +22,11 @@
                                             alt="" />
                                     </a>
                                 </div>
-                                <a class="text-link" href="#">{{$post->category->name ?? '-'}}</a>
+                                <a class="text-link" href="?category={{$post->category_id}}">{{$post->category->name ?? '-'}}</a>
                                 <h2><a href="{{route('front.post', $post->slug)}}">{{$post->title}}</a></h2>
                                 <ul class="post-tags">
                                     <li>{{ $post->created_at->diffForHumans()}}</li>
-                                    <li><a href="#">3 comments</a></li>
+                                    <li><a href="#">{{$post->comments->count()}} comments</a></li>
                                     <li>by <a href="#">{{$post->author->name ?? '-'}}</a></li>
                                 </ul>
                                 <p>{{ $post->snippet ?? '-'}}</p>
@@ -36,11 +36,6 @@
 
                 </div>
                 <div >
-                    {{-- <ul class="pagination-list">
-                        <li><a href="#" class="active">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">Next Page <i class="fa fa-angle-right"></i></a></li>
-                    </ul> --}}
                     {{$posts->links("pagination::bootstrap-5")}}
                 </div>
             </div>

@@ -17,10 +17,10 @@
                                     style="object-fit: cover; width:740px; height:490px"
                                 ></a>
                                 <div class="hover-post text-center">
-                                    <a class="category-link" href="#">{{ $post->category->name ?? '-'}}</a>
+                                    <a class="category-link" href="/posts?category={{$post->category_id}}">{{ $post->category->name ?? '-'}}</a>
                                     <h2><a href="{{route('front.post', $post->slug)}}">{{$post->title}}</a></h2>
                                     <ul class="post-tags">
-                                        <li>by <a href="#">{{$post->author->name}}</a></li>
+                                        <li>by <a href="/posts?author={{$post->user_id}}">{{$post->author->name}}</a></li>
                                         <li>{{$post->created_at->diffForHumans()}}</li>
                                     </ul>
                                 </div>
@@ -94,7 +94,7 @@
                                     asset('images/upload/blog/home5/a1.jpg')}}"
                                 alt="{{$trendingPosts->first()->title}}" /> </a>
                             <div class="hover-post">
-                                <a class="category-link" href="#">{{$trendingPosts->first()->category->name}}</a>
+                                <a class="category-link" href="/posts?category={{$post->category_id}}">{{$trendingPosts->first()->category->name}}</a>
                                 <h2><a href="{{route('front.post', $post->slug)}}">{{$trendingPosts->first()->title}}</a></h2>
                                 <ul class="post-tags">
                                     <li>{{$trendingPosts->first()->created_at->diffForHumans() }}</li>

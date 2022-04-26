@@ -30,6 +30,10 @@ class Post extends Model
             }else if ($status === 'draft'){
                 $query->where('published',false);
             }
+        })->when($filters['category'] ?? null, function ($query, $categoryId ){
+            $query->where(function ($query) use ($categoryId) {
+                $query->where('category_id', $categoryId);
+            });
         });
     }
 
@@ -39,6 +43,10 @@ class Post extends Model
 
     public function category(){
         return $this->belongsTo(Category::class);
+    }
+
+    public function comments(){
+        return $this->hasMany(Comment::class);
     }
 
     public function publishedDate(): Attribute
@@ -54,6 +62,7 @@ class Post extends Model
             set: fn ($value) => $value == "published" ? true : false
         );
     }
+
 
     public function featuredImage(): Attribute
     {

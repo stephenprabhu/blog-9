@@ -18,7 +18,7 @@ const MainMenuItem = ({ icon, link, text }) => {
 
   return (
     <div  className="mb-2">
-        <Link href={route(link)} className="flex items-center group py-3">
+        <Link href={route(link)} className="flex items-center group py-2">
             <MenuIcon className={iconClasses} />
             {/* <MdDashboard  className={iconClasses} /> */}
             <div className={textClasses}>{text}</div>
