@@ -17,9 +17,14 @@ class AdminAccessOnly
      */
     public function handle(Request $request, Closure $next)
     {
-        if(!Auth::check() || Auth::user()->role != 2 ){
+        if(!Auth::check()){
+            return redirect()->route('login');
+        }
+
+        if(Auth::user()->role != 2){
             abort(403);
         }
+
         return $next($request);
     }
 }

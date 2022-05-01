@@ -1,7 +1,6 @@
 import { useForm, usePage } from '@inertiajs/inertia-react'
 import React from 'react'
-import { Modal, Textarea } from '@mantine/core'
-import TextInput from '../../Shared/TextInput';
+import { Modal, Textarea, TextInput } from '@mantine/core'
 import slugify from 'slugify';
 import LoadingButton from '../../Shared/LoadingButton';
 import { useEffect } from 'react';
@@ -17,7 +16,7 @@ const CreateCategoryModal = (props) => {
         image_url:null
     });
 
-    const {editing, curCategory} = usePage().props;
+    const {catEditing: editing, curCategory} = usePage().props;
 
     useEffect(()=>{
         if(editing && curCategory){
@@ -52,13 +51,21 @@ const CreateCategoryModal = (props) => {
 
 
     const onTitleInputChanged = (e) => {
-        const val =  e.target.value;
+        const val =  e.currentTarget.value;
         if(val){
             setData(data => {
                 return {
                     ...data,
                     "name":val,
                     "slug": slugify(val)
+                }
+            });
+        }else{
+            setData(data => {
+                return {
+                    ...data,
+                    "name":"",
+                    "slug": ""
                 }
             });
         }
@@ -81,30 +88,33 @@ const CreateCategoryModal = (props) => {
         <form onSubmit={handleSubmit}>
            <div>
                 <label>
-                    Category Image:
+                    Category Image (optional):
                 </label>
                 <SingleFileUpload
                     imagePath={editing && curCategory ? curCategory.image_url : null}
                     onFileUpload={(file) => setData(prevData => ({...prevData, 'image_url':file}))} />
            </div>
+
             <TextInput
                 className="w-full pb-2 pr-6"
                 label="Title"
                 name="title"
-                errors={errors.name}
+                error={errors.name}
                 value={data.name}
                 onChange={onTitleInputChanged}
+                required
             />
             <TextInput
                 className="w-full pb-2 pr-6"
                 label="Slug"
                 name="slug"
-                errors={errors.slug}
+                error={errors.slug}
                 value={data.slug}
                 onChange={e=> setData("slug", e.target.value) }
+                required
             />
             <Textarea
-                label="Description:"
+                label="Description (optional):"
                 minRows={2}
                 maxRows={4}
                 value={data.description}

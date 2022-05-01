@@ -7,6 +7,7 @@ import moment from "moment";
 import Badge from "../../Shared/Badge";
 import DeleteConfirmationModal from "../../Shared/DeleteConfirmationModal";
 import imagePathHelper from "../../helpers/ImagePathHelper";
+import MantineMenuItem from "../../Shared/MantineMenuItem";
 
 const PostRow = ({post, index}) => {
     const [deleteDialogOpened, setDeleteDialogOpened]= useState(false);
@@ -19,6 +20,10 @@ const PostRow = ({post, index}) => {
     const onPostDeleteClicked = ()=>{
         setDeleteDialogOpened(false);
         Inertia.delete(route('posts.destroy', post.id));
+    }
+
+    const onViewDetailsClicked = ()=>{
+        Inertia.get(route('posts.show',post));
     }
 
   return (
@@ -43,10 +48,16 @@ const PostRow = ({post, index}) => {
     </td>
     <td className="border-t">
         <Menu>
-            <Menu.Item icon={<MdEditNote />} onClick={()=>{onEditMenuClicked()}}>Edit</Menu.Item>
-            <Menu.Item icon={<MdOutlineAutoGraph />}>View Details</Menu.Item>
-            <Menu.Item icon={<HiOutlineGlobeAlt />}>View On Website</Menu.Item>
-            <Menu.Item icon={<MdOutlineDeleteSweep /> } onClick={()=>setDeleteDialogOpened(true)} color="red">Delete</Menu.Item>
+            <MantineMenuItem icon={MdEditNote} onClick={onEditMenuClicked} label={"Edit"} />
+            <MantineMenuItem icon={MdOutlineAutoGraph} onClick={onViewDetailsClicked} label={"View Details"} />
+            <MantineMenuItem
+                component="a"
+                href={route('front.post',post)}
+                target="_blank"
+                icon={HiOutlineGlobeAlt}
+                onClick={()=>{}}
+                label={"View On Website"} />
+            <MantineMenuItem icon={MdOutlineDeleteSweep} color="red" onClick={()=>setDeleteDialogOpened(true)} label={"Delete"} />
         </Menu>
     </td>
     <DeleteConfirmationModal

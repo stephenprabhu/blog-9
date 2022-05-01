@@ -10,12 +10,12 @@ const MainMenu = ({className}) => {
     <div className={className}>
         <MainMenuItem text="Dashboard" link="dashboard" icon={MdDashboard} />
         <MainMenuItem text="Posts" link="posts.index" icon={MdArticle} />
-        <MainMenuItem text="Comments" link="dashboard" icon={MdInsertComment} />
+        <MainMenuItem text="Comments" link="comments.index" icon={MdInsertComment} />
         <MainMenuItem text="Categories" link="categories.index" icon={MdCategory} />
         <MainMenuItem text="Tags" link="tags.index" icon={MdOutlineTag} />
-        {auth.user.data.role === 2 && <MainMenuItem text="Users" link="users.index" icon={MdSupervisedUserCircle} />}
+            {auth.user.data.role === 2 && <MainMenuItem text="Users" link="users.index" icon={MdSupervisedUserCircle} />}
         <MainMenuItem text="Settings" link="dashboard" icon={MdOutlineSettingsApplications} />
-        <MainMenuItem text="Website" link="index" icon={FaGlobe} />
+        <MainMenuItem text="Website" link="index" external={true} icon={FaGlobe} />
 
     </div>
   )

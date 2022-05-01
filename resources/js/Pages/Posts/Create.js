@@ -2,10 +2,9 @@ import { Link, useForm } from "@inertiajs/inertia-react";
 import RichTextEditor from "@mantine/rte";
 import { useEffect, useState} from "react";
 import Layout from "../../Shared/Layout";
-import TextInput from "../../Shared/TextInput";
 import LoadingButton from "../../Shared/LoadingButton";
 import slugify from "slugify";
-import { ActionIcon, Select, Textarea, MultiSelect } from "@mantine/core";
+import { ActionIcon, Select, Textarea, MultiSelect, TextInput } from "@mantine/core";
 import CreateCategoryModal from "../Categories/CategoryFormModal";
 import {MdAdd} from "react-icons/md";
 import { DatePicker } from '@mantine/dates';
@@ -61,13 +60,21 @@ const Create = (props) => {
 
 
     const onTitleInputChanged = (e) => {
-        const val = e.target.value;
+        const val = e.currentTarget.value;
         if(val){
             setData(data => {
                 return {
                     ...data,
                     "title":val,
                     "slug": slugify(val)
+                }
+            });
+        }else{
+            setData(data => {
+                return {
+                    ...data,
+                    "title":"",
+                    "slug": ""
                 }
             });
         }
@@ -118,13 +125,15 @@ const Create = (props) => {
                     <div className="flex flex-wrap p-8 -mb-8 -mr-6">
                         <div className="grid grid-cols-12 w-full">
                             <div className="col-span-6">
+
                                 <TextInput
                                     className="w-full pb-2 pr-6 "
                                     label="Title"
                                     name="title"
-                                    errors={errors.title}
+                                    error={errors.title}
                                     value={data.title}
                                     onChange={onTitleInputChanged}
+                                    required
                                 />
                                 <TextInput
                                     className="w-full pb-2 pr-6 "
@@ -132,7 +141,8 @@ const Create = (props) => {
                                     name="slug"
                                     errors={errors.slug}
                                     value={data.slug}
-                                    onChange={e=> setData("slug", e.target.value) }
+                                    onChange={e=> setData("slug", e.currentTarget.value) }
+                                    required
                                 />
                             </div>
                             <div className="col-span-6">
@@ -213,7 +223,7 @@ const Create = (props) => {
                             <Textarea
                                 className="w-full mr-2"
                                 description="Description of article shown on search engines like Google"
-                                label="Meta Description (MAX 140 characters)"
+                                label="Meta Description (Max 140 characters)"
                                 value={data.meta_description}
                                 onChange={event => setData('meta_description', event.currentTarget.value)}
                             />

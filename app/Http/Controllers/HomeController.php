@@ -6,7 +6,7 @@ use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Request as IlluminateRequest;
-
+use App\Models\User;
 
 class HomeController extends Controller
 {
@@ -31,7 +31,15 @@ class HomeController extends Controller
                         ->select(array_merge($this->simplePostItems,array('snippet')))
                         ->paginate(9);
 
-        $title = 'All Articles';
+        if(IlluminateRequest::has('category'))
+            $title = 'Category : ' . IlluminateRequest::get('category');
+        else if(IlluminateRequest::has('author')){
+            $user = User::find(IlluminateRequest::get('author'));
+            $title = 'Author : ' . $user?->name ;
+        }
+        else
+            $title = 'All Articles';
+
         return view('front.home.archive',compact('posts','title'));
     }
 
@@ -48,6 +56,8 @@ class HomeController extends Controller
                 $editComment = $comment;
             }
         }
+        $post->views += 1;
+        $post->save();
         return view('front.home.post', compact('post','editComment'));
     }
 

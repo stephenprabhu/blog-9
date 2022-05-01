@@ -57,7 +57,9 @@ class PostController extends Controller
 
     public function show(Post $post)
     {
-        //
+        return inertia('Posts/Show',[
+            'post'=>$post->load('tags','comments','comments.user')
+        ]);
     }
 
 

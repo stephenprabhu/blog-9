@@ -13,4 +13,18 @@ class Comment extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
+
+    public function post(){
+        return $this->belongsTo(Post::class);
+    }
+
+    public function scopeFilter($query, array $filters){
+        $query->when($filters['search'] ?? null, function ($query, $search) {
+            $query->where(function ($query) use ($search) {
+                $query->where('message', 'like', '%'.$search.'%')
+                ->orWhereHas('post', fn($query)=>
+                    $query->where('title','like', '%'.$search.'%'));
+            });
+        });
+    }
 }

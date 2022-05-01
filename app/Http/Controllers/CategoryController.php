@@ -76,7 +76,7 @@ class CategoryController extends Controller
     {
         $categories = Category::paginate(10);
         return inertia('Categories/Index',[
-            'editing'=>true,
+            'catEditing'=>true,
             'categories'=> $categories,
             'curCategory'=>$category
         ]);
@@ -118,6 +118,9 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
+        if($category->image_url){
+            Storage::disk('local')->delete($category->image_url);
+        }
         $category->delete();
         return redirect()->route('categories.index')->with('success','Category Deleted');
     }

@@ -5,7 +5,7 @@ import CreateCategoryModal from './CategoryFormModal';
 import CategoryRow from './CategoryRow';
 
 
-const CategoryIndex = ({categories,editing}) => {
+const CategoryIndex = ({categories,catEditing:editing}) => {
     const {data, links} = categories;
     const [categoryFormModalOpened, setCategoryFormModalOpened]=useState(false);
 

@@ -1,4 +1,3 @@
-import React from "react";
 import Layout from "../../Shared/Layout";
 import { Link } from "@inertiajs/inertia-react";
 import SearchFilter from "../../Shared/SearchFilter";

@@ -1,9 +1,8 @@
 import React from 'react'
 import classNames from 'classnames';
 import { Link } from '@inertiajs/inertia-react';
-import {MdDashboard} from "react-icons/md";
 
-const MainMenuItem = ({ icon, link, text }) => {
+const MainMenuItem = ({ icon, link, text, external }) => {
     const isActive = route().current(link + '*');
     const MenuIcon = icon;
     const iconClasses = classNames('w-4 h-4 mr-2', {
@@ -18,11 +17,17 @@ const MainMenuItem = ({ icon, link, text }) => {
 
   return (
     <div  className="mb-2">
-        <Link href={route(link)} className="flex items-center group py-2">
-            <MenuIcon className={iconClasses} />
-            {/* <MdDashboard  className={iconClasses} /> */}
-            <div className={textClasses}>{text}</div>
-        </Link>
+    {external ?
+    <a  href={route(link)} className="flex items-center group py-3">
+        <MenuIcon className={iconClasses} />
+        <div className={textClasses}>{text}</div>
+    </a>:
+    <Link href={route(link)} className="flex items-center group py-3">
+        <MenuIcon className={iconClasses} />
+        <div className={textClasses}>{text}</div>
+    </Link>
+    }
+
     </div>
   )
 }

@@ -26,8 +26,8 @@
                                 <h2><a href="{{route('front.post', $post->slug)}}">{{$post->title}}</a></h2>
                                 <ul class="post-tags">
                                     <li>{{ $post->created_at->diffForHumans()}}</li>
-                                    <li><a href="#">{{$post->comments->count()}} comments</a></li>
-                                    <li>by <a href="#">{{$post->author->name ?? '-'}}</a></li>
+                                    <li><a href="{{route('front.post', $post->slug)}}">{{$post->comments->count()}} comments</a></li>
+                                    <li>by <a href="?author={{$post->user_id}}">{{$post->author->name ?? '-'}}</a></li>
                                 </ul>
                                 <p>{{ $post->snippet ?? '-'}}</p>
                             </div>

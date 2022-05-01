@@ -15,7 +15,8 @@
 
     <!-- Laravel Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
-
+    <meta name="description" content="{{$meta_description ?? 'Stephens Blog. A Cool Blog'}}">
+    <meta name="keywords" content="{{$meta_keywords ?? 'Personal Blog'}}">
     <!-- Theme fonts -->
 
 	<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,500i,700,700i,900&display=swap" rel="stylesheet">

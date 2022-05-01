@@ -15,6 +15,7 @@ class Post extends Model
     use HasTags;
 
     protected $guarded = ['id'];
+    protected $with = ['author','category'];
 
     public function scopeFilter($query, array $filters){
         $query->when($filters['search'] ?? null, function ($query, $search) {
@@ -30,10 +31,14 @@ class Post extends Model
             }else if ($status === 'draft'){
                 $query->where('published',false);
             }
-        })->when($filters['category'] ?? null, function ($query, $categoryId ){
-            $query->where(function ($query) use ($categoryId) {
-                $query->where('category_id', $categoryId);
-            });
+        })->when($filters['category'] ?? null, function ($query, $category){
+            $query->whereExists(fn($query)=>
+                $query->from('categories')
+                    ->whereColumn('categories.id','posts.category_id')
+                    ->where('categories.slug',$category));
+        })->when($filters['author'] ?? null, function ($query, $author){
+            $query->whereExists(fn($query)=>
+                $query->where('user_id', $author));
         });
     }
 

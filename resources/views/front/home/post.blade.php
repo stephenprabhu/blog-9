@@ -1,4 +1,7 @@
-@extends('layouts.front')
+@extends('layouts.front',[
+    'meta_description'=>$post->meta_description,
+    'meta_keywords'=>$post->meta_keywords
+])
 
 @section('content')
     <section class="blog-section">
@@ -100,7 +103,7 @@
                                             {{$comment->user->name}}
                                         </h3>
                                         <span class="comments__list-item-date">
-                                            Posted October 7, 2018
+                                           {{$comment->created_at->diffForHumans()}}
                                         </span>
                                         <p class="comments__list-item-description">
                                             {{$comment->message}}

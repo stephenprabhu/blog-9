@@ -4,11 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Models\Comment;
 use App\Models\Post;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Request as LaravelRequest;
+
 use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
+
+    public function index(){
+        $filters = LaravelRequest::all('search');
+        $comments = Comment::filter(LaravelRequest::only('search'))->with('user')->with('post')->latest()->get();
+        return inertia('Comments/Index',[
+            'comments'=> $comments,
+            'filters'=>$filters
+        ]);
+    }
 
     public function store(Request $request, Post $post){
         $validated = $request->validate([
@@ -42,5 +54,10 @@ class CommentController extends Controller
 
         $comment->delete();
         return redirect()->route('front.post', $post);
+    }
+
+    public function adminDelete(Comment $comment){
+        $comment->delete();
+        return redirect()->route('comments.index')->with('success','Comment Deleted');
     }
 }
