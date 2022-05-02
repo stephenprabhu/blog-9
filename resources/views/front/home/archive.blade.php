@@ -1,6 +1,7 @@
 @extends('layouts.front')
 
 @section('content')
+    @if($posts->count())
     <section class="page-banner-section">
         <div class="container">
             <h1>{{$title ?? 'All Articles'}}</h1>
@@ -41,4 +42,9 @@
             </div>
         </div>
     </section>
+    @else
+        <h3 class="text-center mt-5 mb-5">
+            No Posts Yet. Come back soon for amazing articles.
+        </h3>
+    @endif
 @endsection

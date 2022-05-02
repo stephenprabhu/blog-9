@@ -67,7 +67,7 @@
                                             @if(Auth::user()->role == 1 || Auth::user()->role ==2)
                                                 <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
                                             @endif
-                                            <li><a href="/profile">My Profile</a></li>
+                                            <li><a href="{{route('front.profile')}}">My Profile</a></li>
                                             <li>
                                                 <form action="/logout" method="POST">
                                                     @csrf

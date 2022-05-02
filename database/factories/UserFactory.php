@@ -20,6 +20,7 @@ class UserFactory extends Factory
         return [
             'name' => $this->faker->name(),
             'email' => 'cats@gmail.com',
+            'username' => 'catsman',
             'email_verified_at' => now(),
             'password' => bcrypt('secret'), // password
             'remember_token' => Str::random(10),

@@ -20,9 +20,14 @@ Route::get('/posts',[HomeController::class,'archive'])->name('front.archive');
 Route::get('/contact',[HomeController::class,'contact'])->name('front.contact');
 Route::get('/posts/{post:slug}',[HomeController::class,'post'])->name('front.post');
 
-Route::post('/posts/{post:slug}/comments/create',[CommentController::class,'store'])->middleware('auth')->name('comments.store');
-Route::put('/posts/{post:slug}/comments/update/{comment}',[CommentController::class,'update'])->middleware('auth')->name('comments.update');
-Route::delete('/posts/{post:slug}/comments/delete/{comment}',[CommentController::class,'delete'])->middleware('auth')->name('comments.delete');
+
+Route::middleware('auth')->group(function(){
+    Route::post('/posts/{post:slug}/comments/create',[CommentController::class,'store'])->name('comments.store');
+    Route::put('/posts/{post:slug}/comments/update/{comment}',[CommentController::class,'update'])->name('comments.update');
+    Route::delete('/posts/{post:slug}/comments/delete/{comment}',[CommentController::class,'delete'])->name('comments.delete');
+    Route::get('/profile',[HomeController::class,'profile'])->name('front.profile');
+});
+
 
 Route::prefix('admin')->middleware('auth')->middleware('dashboardAccess')->group(function () {
     Route::get('/home', [DashboardController::class, 'index'])->name('dashboard');

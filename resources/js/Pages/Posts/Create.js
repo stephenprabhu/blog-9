@@ -18,7 +18,8 @@ const Create = (props) => {
     const [categoryFormModalOpened, setCategoryFormModalOpened]=useState(false);
     const [showAdvanced, setShowAdvanced] = useState(false);
 
-    const { data, setData, errors, post, processing } = useForm({
+
+    const { data, setData, post, processing } = useForm({
         title: "",
         slug:"",
         published:"published",
@@ -34,7 +35,9 @@ const Create = (props) => {
 
 
 
-    const {editing, article, categories, tags} = props;
+
+
+    const {editing, article, categories, tags, errors } = props;
 
     useEffect(()=>{
         if(editing && article){
@@ -139,7 +142,7 @@ const Create = (props) => {
                                     className="w-full pb-2 pr-6 "
                                     label="Slug"
                                     name="slug"
-                                    errors={errors.slug}
+                                    error={errors.slug}
                                     value={data.slug}
                                     onChange={e=> setData("slug", e.currentTarget.value) }
                                     required
@@ -164,6 +167,7 @@ const Create = (props) => {
                             ))}
                             value={data.category_id}
                             placeholder="Click Here"
+                            error={errors.category_id}
                             nothingFound="Nothing found"
                             searchable
                             rightSection={
@@ -245,7 +249,7 @@ const Create = (props) => {
                         <button className="btn-secondary mr-3" type="button" onClick={() => setShowAdvanced(show => !show)}>
                             {showAdvanced ? "Hide": "Show"} Advanced
                         </button>
-                        <a href="#" class="btn-indigo mr-3">Show Preview</a>
+                        <a href="#" className="btn-indigo mr-3">Show Preview</a>
                         <LoadingButton
                             loading={processing}
                             type="submit"

@@ -4,9 +4,9 @@ import moment from 'moment';
 import {MdOutlineEast} from "react-icons/md";
 const RecentComments = ({comments}) => {
   return (
-        <Card shadow="lg" className='mt-4'>
+        <Card shadow="lg" className='mt-4 flex flex-col justify-between'>
             <h3 className="text-lg font-bold mb-2">Recent Comments</h3>
-            <Table verticalSpacing="sm">
+            <Table verticalSpacing="sm" className='flex-1'>
                 <tbody>
                    {comments.map(comment=>(
                     <tr>

@@ -30,6 +30,24 @@
                         @enderror
                     </div>
 
+
+                    <div class="mb-3">
+                        <label for="username" class="col-form-label text-md-end">{{ __('Username') }}</label>
+                        <input id="username"
+                            type="text"
+                            class="custom-form-control-text"
+                            style="margin:0"
+                            name="username"
+                            value="{{ old('username') }}"
+                            required autocomplete="username" autofocus>
+
+                        @error('username')
+                            <span class="invalid-feedback" style="display: block"  role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+
                     <div class="mb-3">
                         <label for="email" class="col-form-label text-md-end">{{ __('Email Address') }}</label>
                         <input

@@ -53,7 +53,7 @@ class CommentController extends Controller
         }
 
         $comment->delete();
-        return redirect()->route('front.post', $post);
+        return redirect()->back();
     }
 
     public function adminDelete(Comment $comment){

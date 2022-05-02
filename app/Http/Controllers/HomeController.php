@@ -7,6 +7,7 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Request as IlluminateRequest;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -24,6 +25,7 @@ class HomeController extends Controller
 
     public function archive(Request $request){
         $posts = Post::latest()
+                        ->where('published', true)
                         ->with('category')
                         ->with('author')
                         ->with('comments')
@@ -59,6 +61,10 @@ class HomeController extends Controller
         $post->views += 1;
         $post->save();
         return view('front.home.post', compact('post','editComment'));
+    }
+
+    public function profile(){
+        return view('front.home.profile');
     }
 
 }

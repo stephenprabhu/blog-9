@@ -17,7 +17,13 @@
                                     style="object-fit: cover; width:740px; height:490px"
                                 ></a>
                                 <div class="hover-post text-center">
-                                    <a class="category-link" href="/posts?category={{$post->category->slug ?? '' }}">{{ $post->category->name ?? '-'}}</a>
+                                    @if($post->category)
+                                        <a
+                                            class="category-link"
+                                            href="/posts?category={{$post->category->slug ?? '' }}">
+                                                {{ $post->category->name ?? '-'}}
+                                        </a>
+                                    @endif
                                     <h2><a href="{{route('front.post', $post->slug)}}">{{$post->title}}</a></h2>
                                     <ul class="post-tags">
                                         <li>by <a href="/posts?author={{$post->user_id}}">{{$post->author->name}}</a></li>
@@ -32,6 +38,7 @@
         </div>
     </section>
 
+    @if($recentPosts->count())
     <!-- RECENT STORIES SECTION -->
     <section class="fresh-section">
         <div class="container">
@@ -57,6 +64,11 @@
             <div class="border-bottom"></div>
         </div>
     </section>
+    @else
+            <h3 class="text-center mt-5 mb-5">
+                No Posts Yet. Come back soon for amazing articles.
+            </h3>
+    @endif
 
     <!--SUBSCRIBE TO NEWSELTTER SECTION -->
     <section class="subscribe-section">
@@ -75,6 +87,7 @@
     </section>
 
 
+    @if($trendingPosts->count())
     <!-- Trending Posts -->
     <section class="top-home-section">
         <div class="container">
@@ -86,7 +99,7 @@
 
                     <div class="col-lg-6 col-md-12">
                         <div class="news-post image-post">
-                            <a href="{{route('front.post', $post->slug)}}"><img
+                            <a href="{{route('front.post', $trendingPosts->first()->slug)}}"><img
                                 style="object-fit: cover; width:570px; height:610px"
                                 src="{{
                                     $trendingPosts->first()->featured_image ?
@@ -94,11 +107,17 @@
                                     asset('images/upload/blog/home5/a1.jpg')}}"
                                 alt="{{$trendingPosts->first()->title}}" /> </a>
                             <div class="hover-post">
-                                <a class="category-link" href="/posts?category={{$post->category_id}}">{{$trendingPosts->first()->category->name}}</a>
-                                <h2><a href="{{route('front.post', $post->slug)}}">{{$trendingPosts->first()->title}}</a></h2>
+                                @if($trendingPosts->first()->category)
+                                    <a
+                                        class="category-link"
+                                        href="/posts?category={{$trendingPosts->first()->category_id}}">
+                                            {{$trendingPosts->first()->category->name ?? ''}}
+                                    </a>
+                                @endif
+                                <h2><a href="{{route('front.post', $trendingPosts->first()->slug)}}">{{$trendingPosts->first()->title}}</a></h2>
                                 <ul class="post-tags">
                                     <li>{{$trendingPosts->first()->created_at->diffForHumans() }}</li>
-                                    <li><a href="#">2 comments</a></li>
+                                    <li><a href="#">2 comments {{$trendingPosts->first()->category->name ?? ''}}</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -122,6 +141,7 @@
             </div>
         </div>
     </section>
+    @endif
 
 
     <!--ABOUT ME SECTION -->
