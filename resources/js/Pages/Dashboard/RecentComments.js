@@ -6,7 +6,8 @@ const RecentComments = ({comments}) => {
   return (
         <Card shadow="lg" className='mt-4 flex flex-col justify-between'>
             <h3 className="text-lg font-bold mb-2">Recent Comments</h3>
-            <Table verticalSpacing="sm" className='flex-1'>
+           { comments && comments.length > 0 ?
+           <Table verticalSpacing="sm" className='flex-1'>
                 <tbody>
                    {comments.map(comment=>(
                     <tr>
@@ -21,6 +22,11 @@ const RecentComments = ({comments}) => {
                    ))}
                 </tbody>
             </Table>
+            :
+            <p className='text-center font-bold'>
+                No Comments Yet!
+            </p>
+            }
             <Link
                 className='text-indigo-600'
                 href={route('comments.index')}>

@@ -27,7 +27,8 @@ const TagIndex = ({tags, editing}) => {
         </Link>
     </div>
     <div className="overflow-x-auto bg-white rounded shadow">
-        <table className="w-full whitespace-nowrap ">
+        {tags && tags.length > 0 ?
+            <table className="w-full whitespace-nowrap ">
             <thead>
                 <tr className="font-bold text-left ">
                     <th className=" pt-2 pl-3 pb-2">#</th>
@@ -40,7 +41,11 @@ const TagIndex = ({tags, editing}) => {
                    <TagRow key={index} tag={tag} index={index} />
                 ))}
             </tbody>
-        </table>
+            </table>
+        :
+            <p className='mx-3 my-6 text-lg'>No Tags Found. Click <span className='font-bold'>Create Tag</span> To Create One.</p>
+        }
+
     </div>
     <TagCreateModal opened={tagFormModalOpened} setOpened={setTagFormModalOpened} />
 </div>

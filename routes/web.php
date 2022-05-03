@@ -35,6 +35,8 @@ Route::prefix('admin')->middleware('auth')->middleware('dashboardAccess')->group
     Route::resource('posts',PostController::class);
     Route::resource('tags',TagController::class);
     Route::resource('users', UserController::class);
+    Route::post('/users/{user}/block', [UserController::class,'block'])->name('users.block');
+    Route::post('/users/{user}/unblock', [UserController::class,'unblock'])->name('users.unblock');
     Route::get('/comments',[CommentController::class,'index'])->name('comments.index');
     Route::delete('/comments/{comment}/delete',[CommentController::class,'adminDelete'])->name('comments.destroy');
 });

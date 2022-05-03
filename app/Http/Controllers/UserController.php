@@ -13,7 +13,7 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('adminAccessOnly');
+        $this->middleware('adminAccessOnly')->except(['block','unblock']);
     }
 
     /**
@@ -118,5 +118,17 @@ class UserController extends Controller
     {
         $user->delete();
         return redirect()->route('users.index')->with('success','User Successfully Deleted!');
+    }
+
+    public function block(User $user){
+        $user->status=false;
+        $user->save();
+        return redirect()->back()->with('success','User Successfully Blocked!');
+    }
+
+    public function unblock(User $user){
+        $user->status=true;
+        $user->save();
+        return redirect()->back()->with('success','User Successfully UnBlocked!');
     }
 }

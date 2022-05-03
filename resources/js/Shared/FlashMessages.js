@@ -53,7 +53,13 @@ export default () => {
 
   useEffect(() => {
     setVisible(true);
+    const t = setTimeout(()=>{
+        setVisible(false);
+    },3000);
+
+
   }, [flash, errors]);
+
 
   return (
     <div>
