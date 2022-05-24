@@ -1,10 +1,11 @@
 import Layout from "../../Shared/Layout";
+import Pagination from "../../Shared/Pagination";
 import SearchFilter from "../../Shared/SearchFilter";
 import CommentRow from "./CommentRow";
 
 
 const CommentIndex = (props) => {
-    const {comments}= props;
+    const {data, links}= props.comments;
   return (
     <div>
         <div className="lg:flex block items-center justify-between mb-2">
@@ -15,12 +16,13 @@ const CommentIndex = (props) => {
                 <table className="w-full border-separate" style={{ borderSpacing: "0 1em"}}>
 
                     <tbody>
-                      {comments.map(comment => (
+                      {data.map(comment => (
                         <CommentRow key={comment.id} comment={comment}/>
                         ))}
                     </tbody>
                 </table>
-            </div>
+        </div>
+        <Pagination links={links}/>
     </div>
   )
 }

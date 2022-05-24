@@ -106,4 +106,14 @@ class PostController extends Controller
         $post->delete();
         return redirect()->route('posts.index')->with('success','Post Deleted');
     }
+
+    public function upload(HttpRequest $request){
+        if($request->hasFile('image')){
+            $path = $request->file('image')->store('public/posts/uploads');
+            $url = str_replace('public', '/storage',$path);
+            return response()->json(['url'=>$url]);
+        }else{
+            return null;
+        }
+    }
 }

@@ -11,7 +11,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-5">
-                <form method="POST" action="{{ route('login') }}">
+                <form method="POST" action="{{ route('login' , $args ?? []) }}">
                     @csrf
 
                     <div class="mb-3">

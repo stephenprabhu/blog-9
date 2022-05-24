@@ -15,7 +15,13 @@ class CommentController extends Controller
 
     public function index(){
         $filters = LaravelRequest::all('search');
-        $comments = Comment::filter(LaravelRequest::only('search'))->with('user')->with('post')->latest()->get();
+        $comments = Comment::
+                        filter(LaravelRequest::only('search'))
+                        ->with(['user','post'])
+                        ->latest()
+                        ->paginate(10)
+                        ->appends(LaravelRequest::all());
+
         return inertia('Comments/Index',[
             'comments'=> $comments,
             'filters'=>$filters

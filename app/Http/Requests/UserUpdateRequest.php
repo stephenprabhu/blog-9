@@ -28,6 +28,7 @@ class UserUpdateRequest extends FormRequest
         $user = $this->route('user');
         return [
             'name' => ['required', 'string', 'max:255'],
+            'username' => ['required', 'string', 'max:255','min:3',Rule::unique('users','username')->ignore($user),'regex:/[a-zA-Z0-9-]+/'],
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users','email')->ignore($user) ],
             'slogan'=> ['nullable','max:255'],
             'role'=>['required','min:0','max:2']

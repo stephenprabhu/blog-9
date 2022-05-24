@@ -23,12 +23,12 @@
                                             alt="" />
                                     </a>
                                 </div>
-                                <a class="text-link" href="?category={{$post->category_id}}">{{$post->category->name ?? '-'}}</a>
+                                <a class="text-link" href="?category={{$post->category->slug}}">{{$post->category->name ?? '-'}}</a>
                                 <h2><a href="{{route('front.post', $post->slug)}}">{{$post->title}}</a></h2>
                                 <ul class="post-tags">
                                     <li>{{ $post->created_at->diffForHumans()}}</li>
                                     <li><a href="{{route('front.post', $post->slug)}}">{{$post->comments->count()}} comments</a></li>
-                                    <li>by <a href="?author={{$post->user_id}}">{{$post->author->name ?? '-'}}</a></li>
+                                    <li>by <a href="?author={{$post->author->username}}">{{$post->author->name ?? '-'}}</a></li>
                                 </ul>
                                 <p>{{ $post->snippet ?? '-'}}</p>
                             </div>

@@ -26,7 +26,7 @@
                                     @endif
                                     <h2><a href="{{route('front.post', $post->slug)}}">{{$post->title}}</a></h2>
                                     <ul class="post-tags">
-                                        <li>by <a href="/posts?author={{$post->user_id}}">{{$post->author->name}}</a></li>
+                                        <li>by <a href="/posts?author={{$post->author->username}}">{{$post->author->name}}</a></li>
                                         <li>{{$post->created_at->diffForHumans()}}</li>
                                     </ul>
                                 </div>

@@ -1,6 +1,6 @@
 import { Link, useForm } from "@inertiajs/inertia-react";
 import RichTextEditor from "@mantine/rte";
-import { useEffect, useState} from "react";
+import { useEffect, useState, useRef} from "react";
 import Layout from "../../Shared/Layout";
 import LoadingButton from "../../Shared/LoadingButton";
 import slugify from "slugify";
@@ -10,9 +10,7 @@ import {MdAdd} from "react-icons/md";
 import { DatePicker } from '@mantine/dates';
 import SingleFileUpload from "../../Shared/SingleFileUpload";
 import { Inertia } from "@inertiajs/inertia";
-
-
-// Import the plugin styles
+// import { Editor } from '@tinymce/tinymce-react';
 
 const Create = (props) => {
     const [categoryFormModalOpened, setCategoryFormModalOpened]=useState(false);
@@ -107,6 +105,22 @@ const Create = (props) => {
             post(route("posts.store"));
         }
     }
+
+    const handleImageUpload = (file) => new Promise((resolve, reject) => {
+        const formData = new FormData();
+        formData.append('image', file);
+
+        fetch('/posts/upload', {
+            method: 'POST',
+            body: formData,
+        })
+        .then((response) => response.json())
+        .then((result) =>  {
+            console.log(result);
+            return resolve(result.url);
+        })
+        .catch(() => reject(new Error('Upload failed')));
+    });
 
     const textCleaner = (text, length)=>{
         return text.replace(/<\/?[^>]+(>|$)/g, "").replace("&nbsp;", " ").slice(0,length);
@@ -210,10 +224,30 @@ const Create = (props) => {
                         </div>
 
                         <RichTextEditor
-                            value={data.body} onChange={onBodyChanged}
+                            value={data.body}
+                            onChange={onBodyChanged}
+                            onImageUpload={handleImageUpload}
                             style={{minHeight:"400px"}}
                             className="w-full mt-4"
                         />
+                        {/* <Editor
+                            onInit={(evt, editor) => editorRef.current = editor}
+                            initialValue={data.body}
+                            apiKey="i4mwasxip6nx08ueqa0m0yi8yu42qg6es6y6t7w1iqkzt2r2"
+                            init={{
+                            height: 500,
+                            menubar: false,
+                            width:'100%',
+                            plugins: [
+                                'advlist autolink lists link image charmap print preview anchor',
+                                'searchreplace visualblocks code fullscreen',
+                                'insertdatetime media table paste code help wordcount'
+                            ],
+                            toolbar1: 'undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl',
+                            toolbar2: ' numlist bullist',
+                            content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+                            }}
+                        /> */}
                         <input type="hidden" value={data.body} name="body" />
                         {showAdvanced &&
                         <div className="w-full flex justify-around mt-3 ml-1 mr-1">

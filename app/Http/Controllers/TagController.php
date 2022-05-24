@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Spatie\Tags\Tag;
+use Illuminate\Support\Facades\Request as LaravelRequest;
 
 class TagController extends Controller
 {
@@ -12,10 +13,17 @@ class TagController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $filters = LaravelRequest::all('search');
+        $tags = Tag::latest();
+        if($request->has('search')){
+            $tags = $tags->containing($request->get('search'));
+        }
+
         return inertia('Tags/Index',[
-            'tags'=>Tag::all()
+            'tags'=> $tags->paginate(10)->appends(LaravelRequest::all()),
+            'filters'=>$filters
         ]);
     }
 
@@ -55,7 +63,7 @@ class TagController extends Controller
     public function edit($id)
     {
         return inertia('Tags/Index',[
-            'tags'=>Tag::all(),
+            'tags'=>Tag::paginate(10),
             'editing'=>true,
             'curTag'=>Tag::find($id)
         ]);

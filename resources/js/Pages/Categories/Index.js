@@ -3,7 +3,8 @@ import Layout from '../../Shared/Layout';
 import { Link } from '@inertiajs/inertia-react';
 import CreateCategoryModal from './CategoryFormModal';
 import CategoryRow from './CategoryRow';
-
+import Pagination from '../../Shared/Pagination';
+import SearchFilter from '../../Shared/SearchFilter';
 
 const CategoryIndex = ({categories,catEditing:editing}) => {
     const {data, links} = categories;
@@ -19,7 +20,7 @@ const CategoryIndex = ({categories,catEditing:editing}) => {
     <div>
           <div className="lg:flex block items-center justify-between mb-6">
           <h1 className="mb-8 text-3xl font-bold">Categories</h1>
-                {/* <SearchFilter /> */}
+                <SearchFilter />
                 <Link
                 preserveState
                 className="btn-indigo focus:outline-none"
@@ -51,6 +52,8 @@ const CategoryIndex = ({categories,catEditing:editing}) => {
                     <p className='mx-3 my-6 text-lg'>No Categories Found. Click <span className='font-bold'>Create Category</span> To Create One.</p>
                 }
             </div>
+            <Pagination links={links}/>
+
             <CreateCategoryModal opened={categoryFormModalOpened} setOpened={setCategoryFormModalOpened} />
     </div>
   )

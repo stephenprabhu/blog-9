@@ -133,19 +133,28 @@
                 <!-- end comments -->
 
                 <!-- Contact form module -->
-                <form class="contact-form" action="{{$editComment ? route('comments.update',['post'=>$post, 'comment'=>$editComment]) : route('comments.store',$post) }}" id="comment-form" method="POST">
-                    @csrf
+                @auth
+                    <form class="contact-form" action="{{$editComment ? route('comments.update',['post'=>$post, 'comment'=>$editComment]) : route('comments.store',$post) }}" id="comment-form" method="POST">
+                        @csrf
 
-                    @if($editComment)
-                        @method('PUT')
-                    @endif
+                        @if($editComment)
+                            @method('PUT')
+                        @endif
 
-                    <h2 class="contact-form__title">
-                        Write a Comment
-                    </h2>
-                    <textarea class="contact-form__textarea" name="message" id="comment" placeholder="Comment">{{$editComment ? $editComment->message : ''}}</textarea>
-                    <button class="contact-form__submit" type="submit" >Post Comment</button>
-                </form>
+                        <h2 class="contact-form__title">
+                            Write a Comment
+                        </h2>
+                        <textarea class="contact-form__textarea" name="message" id="comment" placeholder="Comment">{{$editComment ? $editComment->message : ''}}</textarea>
+                        <button class="contact-form__submit" type="submit" >Post Comment</button>
+                    </form>
+                @endauth
+
+                @guest
+                    <p>
+                        <a href="{{route('login', ['redirectBack'=>route('front.post', $post)])}}">
+                            Log In
+                        </a> to post a comment</p>
+                @endguest
                 <!-- End Contact form module -->
 
             </div>

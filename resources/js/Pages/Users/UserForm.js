@@ -7,6 +7,7 @@ import RoleSelect from "./RoleSelect";
 import { useEffect } from "react";
 import SingleFileUpload from "../../Shared/SingleFileUpload";
 import { Inertia } from "@inertiajs/inertia";
+
 const UserForm = (props) => {
     const {editing, user} = props;
     const { data, setData, errors, post, processing } = useForm({
@@ -72,23 +73,35 @@ const UserForm = (props) => {
                         <TextInput
                             className="w-full pb-2 pr-4 lg:w-1/2"
                             label="Name"
+                            description="This will be visible to users when you post articles and comments"
                             error={errors.name || false}
                             value={data.name}
                             onChange={e => setData("name", e.target.value)}
                             placeholder="John Smith"
                             required
                         />
+                         <TextInput
+                            className="w-full pb-2 pr-4 lg:w-1/2"
+                            label="Username"
+                            description="Only Characters, numbers and Dashes Allowed"
+                            error={errors.username || false}
+                            value={data.username}
+                            onChange={e => setData("username", e.target.value)}
+                            placeholder="johnsmith"
+                            required
+                        />
                         <TextInput
                             className="w-full pb-2 pr-6 lg:w-1/2"
                             label="Slogan (optional)"
+                            description="One sentence that describes you"
                             error={errors.slogan || false}
                             value={data.slogan}
                             onChange={e => setData("slogan", e.target.value)}
                             placeholder="Author at Blogname"
                         />
-                        <RoleSelect value={data.role} onChange={val => setData("role", val)} error={errors.role} />
                         <TextInput
                             className="w-full pb-2 pr-6 lg:w-1/2"
+                            description="This will be used for password recovery"
                             label="Email"
                             type="email"
                             error={errors.email || false}
@@ -118,6 +131,8 @@ const UserForm = (props) => {
                                 />
                             </>
                         }
+                        <RoleSelect value={data.role} onChange={val => setData("role", val)} error={errors.role} />
+
                     </div>
 
 

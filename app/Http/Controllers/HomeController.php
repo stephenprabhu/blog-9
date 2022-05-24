@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Request as IlluminateRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Password;
 
 class HomeController extends Controller
 {
@@ -26,17 +27,15 @@ class HomeController extends Controller
     public function archive(Request $request){
         $posts = Post::latest()
                         ->where('published', true)
-                        ->with('category')
-                        ->with('author')
-                        ->with('comments')
+                        ->with(['category', 'author', 'comments'])
                         ->filter(IlluminateRequest::only('category','author'))
                         ->select(array_merge($this->simplePostItems,array('snippet')))
                         ->paginate(9);
 
         if(IlluminateRequest::has('category'))
             $title = 'Category : ' . IlluminateRequest::get('category');
-        else if(IlluminateRequest::has('author')){
-            $user = User::find(IlluminateRequest::get('author'));
+        else if($request->has('author')){
+            $user = User::where('username', $request->get('author'))->first();
             $title = 'Author : ' . $user?->name ;
         }
         else
@@ -64,7 +63,7 @@ class HomeController extends Controller
     }
 
     public function profile(){
-        return view('front.home.profile');
+        return view('front.users.profile');
     }
 
 }

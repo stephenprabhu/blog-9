@@ -38,7 +38,9 @@ class Post extends Model
                     ->where('categories.slug',$category));
         })->when($filters['author'] ?? null, function ($query, $author){
             $query->whereExists(fn($query)=>
-                $query->where('user_id', $author));
+                $query->from('users')
+                    ->whereColumn('users.id','posts.user_id')
+                    ->where('users.username',$author));
         });
     }
 

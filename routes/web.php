@@ -9,7 +9,6 @@ use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-
 Auth::routes();
 
 Route::get('/dashboard', [DashboardController::class, 'testDeleteLater'])->name('home');
@@ -23,6 +22,7 @@ Route::get('/posts/{post:slug}',[HomeController::class,'post'])->name('front.pos
 
 Route::middleware('auth')->group(function(){
     Route::post('/posts/{post:slug}/comments/create',[CommentController::class,'store'])->name('comments.store');
+    Route::post('/posts/upload',[PostController::class,'upload'])->name('posts.upload');
     Route::put('/posts/{post:slug}/comments/update/{comment}',[CommentController::class,'update'])->name('comments.update');
     Route::delete('/posts/{post:slug}/comments/delete/{comment}',[CommentController::class,'delete'])->name('comments.delete');
     Route::get('/profile',[HomeController::class,'profile'])->name('front.profile');

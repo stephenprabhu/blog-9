@@ -8,10 +8,7 @@ const TopHeader = () => {
 
   return (
     <div className="flex items-center justify-between px-6 py-1 bg-indigo-900 md:flex-shrink-0 md:w-56 md:justify-center">
-        <Link className="mt-1" href="/">
-             <img src="/images/writing.png" alt="logo"  />
-            {/* <Logo className="text-white fill-current" width="120" height="28" /> */}
-        </Link>
+        <img src="/images/screen.png" alt="logo" style={{width:'30%'}} />
         <div className="relative md:hidden">
         <svg
           onClick={() => setMenuOpened(true)}

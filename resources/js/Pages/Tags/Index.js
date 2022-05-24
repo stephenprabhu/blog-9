@@ -3,9 +3,13 @@ import { Link } from "@inertiajs/inertia-react";
 import TagRow from "./TagRow";
 import TagCreateModal from "./TagCreateModal";
 import { useState, useEffect } from "react";
+import Pagination from "../../Shared/Pagination";
+import SearchFilter from "../../Shared/SearchFilter";
 
 const TagIndex = ({tags, editing}) => {
     const [tagFormModalOpened, setTagFormModalOpened]=useState(false);
+
+    const {data, links} = tags;
 
     useEffect(()=>{
         if(editing){
@@ -17,6 +21,7 @@ const TagIndex = ({tags, editing}) => {
     <div>
     <div className="lg:flex block items-center justify-between mb-6">
     <h1 className="mb-8 text-3xl font-bold">Tags</h1>
+        <SearchFilter />
         <Link
             preserveState
             className="btn-indigo focus:outline-none"
@@ -27,7 +32,7 @@ const TagIndex = ({tags, editing}) => {
         </Link>
     </div>
     <div className="overflow-x-auto bg-white rounded shadow">
-        {tags && tags.length > 0 ?
+        {data && data.length > 0 ?
             <table className="w-full whitespace-nowrap ">
             <thead>
                 <tr className="font-bold text-left ">
@@ -37,7 +42,7 @@ const TagIndex = ({tags, editing}) => {
                 </tr>
             </thead>
             <tbody>
-                {tags.map((tag, index)=>(
+                {data.map((tag, index)=>(
                    <TagRow key={index} tag={tag} index={index} />
                 ))}
             </tbody>
@@ -47,6 +52,7 @@ const TagIndex = ({tags, editing}) => {
         }
 
     </div>
+    <Pagination links={links} />
     <TagCreateModal opened={tagFormModalOpened} setOpened={setTagFormModalOpened} />
 </div>
   )

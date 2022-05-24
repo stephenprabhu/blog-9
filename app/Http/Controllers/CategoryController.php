@@ -6,6 +6,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Request as LaravelRequest;
 
 class CategoryController extends Controller
 {
@@ -16,9 +17,14 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::paginate(10);
+        $categories = Category::filter(LaravelRequest::only('search'))
+                        ->latest()
+                        ->paginate(10)
+                        ->appends(LaravelRequest::all());
+        $filters = LaravelRequest::all('search');
         return inertia('Categories/Index',[
-            'categories'=> $categories
+            'categories'=> $categories,
+            'filters'=> $filters
         ]);
     }
 
@@ -74,10 +80,15 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        $categories = Category::paginate(10);
+        $categories = Category::filter(LaravelRequest::only('search'))
+                    ->latest()
+                    ->paginate(10)
+                    ->appends(LaravelRequest::all());
+        $filters = LaravelRequest::all('search');
         return inertia('Categories/Index',[
             'catEditing'=>true,
             'categories'=> $categories,
+            'filters'=>$filters,
             'curCategory'=>$category
         ]);
     }

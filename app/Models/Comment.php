@@ -23,7 +23,9 @@ class Comment extends Model
             $query->where(function ($query) use ($search) {
                 $query->where('message', 'like', '%'.$search.'%')
                 ->orWhereHas('post', fn($query)=>
-                    $query->where('title','like', '%'.$search.'%'));
+                    $query->where('title','like', '%'.$search.'%'))
+                ->orWhereHas('user', fn($query)=>
+                    $query->where('name','like', '%'.$search.'%'));
             });
         });
     }
