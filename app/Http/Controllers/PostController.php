@@ -78,7 +78,7 @@ class PostController extends Controller
     public function update(PostUpdateRequest $request, Post $post)
     {
         if($post->featured_image){
-            Storage::disk('local')->delete($post->featured_image);
+            Storage::disk('s3')->delete($post->featured_image);
         }
 
         $validated = $request->validated();
@@ -101,7 +101,7 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         if($post->featured_image){
-            Storage::disk('local')->delete($post->featured_image);
+            Storage::disk('s3')->delete($post->featured_image);
         }
         $post->delete();
         return redirect()->route('posts.index')->with('success','Post Deleted');
