@@ -33,7 +33,7 @@ const SingleFileUpload = (props) => {
             var myInit = {
               method: 'GET',
               headers: myHeaders,
-              mode: 'cors',
+              mode: 'no-cors',
               cache: 'default'
             };
             var myRequest = new Request(source, myInit);
