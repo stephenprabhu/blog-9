@@ -11,7 +11,8 @@ const SingleFileUpload = (props) => {
     const [files, setFiles] = useState(imagePath ? [
          {
           source: imagePath,
-          options: { type: "local" }
+          options: { type: "local" },
+          headers
         }
       ]: null);
 
@@ -27,7 +28,15 @@ const SingleFileUpload = (props) => {
         }}
         server={imagePath ? {
           load: (source, load, error, progress, abort, headers) => {
-            var myRequest = new Request(source);
+            const myHeaders = new Headers();
+            myHeaders.append('Access-Control-Expose-Headers', 'Content-Disposition');
+            var myInit = {
+              method: 'GET',
+              headers: myHeaders,
+              mode: 'cors',
+              cache: 'default'
+            };
+            var myRequest = new Request(source, myInit);
             fetch(myRequest).then(function(response) {
               response.blob().then(function(myBlob) {
                 load(myBlob);
