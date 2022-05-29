@@ -14,7 +14,7 @@
                                 <a  href="{{route('front.post', $post->slug)}}"><img
                                     src="{{$post->featured_image ? $post->featured_image : asset('images/upload/blog/a1.jpg')}}"
                                     alt="{{$post->title}}"
-                                    style="object-fit: cover; width:740px; height:490px"
+                                    style="object-fit: cover; height:490px"
                                 ></a>
                                 <div class="hover-post text-center">
                                     @if($post->category)
