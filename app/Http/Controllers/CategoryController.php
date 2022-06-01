@@ -132,6 +132,9 @@ class CategoryController extends Controller
         if($category->image_url){
             Storage::disk('local')->delete($category->image_url);
         }
+        if($category->posts->count() > 0 ){
+            return back()->with('fail','Category Could Not Be Deleted Because There Are Posts That Use The Category');
+        }
         $category->delete();
         return redirect()->route('categories.index')->with('success','Category Deleted');
     }

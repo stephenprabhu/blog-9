@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::get('/dashboard', [DashboardController::class, 'testDeleteLater'])->name('home');
 //Route::get('users/{user}/edit')->name('users.edit')->uses('UsersController@edit')->middleware('auth');
 
 Route::get('/',[HomeController::class,'index'])->name('index');

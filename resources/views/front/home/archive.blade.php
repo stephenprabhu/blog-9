@@ -18,7 +18,7 @@
                                 <div class="image-holder">
                                     <a href="{{route('front.post', $post->slug)}}">
                                         <img
-                                            style="object-fit: cover; width:740px; height:350px"
+                                            style="object-fit: cover; max-width:350px; height:350px"
                                             src="{{$post->featured_image ? $post->featured_image : asset('images/upload/blog/c9.jpg')}}"
                                             alt="" />
                                     </a>

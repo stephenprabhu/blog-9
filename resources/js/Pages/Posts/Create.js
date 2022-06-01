@@ -10,7 +10,7 @@ import {MdAdd} from "react-icons/md";
 import { DatePicker } from '@mantine/dates';
 import SingleFileUpload from "../../Shared/SingleFileUpload";
 import { Inertia } from "@inertiajs/inertia";
-// import { Editor } from '@tinymce/tinymce-react';
+import { Editor } from '@tinymce/tinymce-react';
 
 const Create = (props) => {
     const [categoryFormModalOpened, setCategoryFormModalOpened]=useState(false);
@@ -223,31 +223,28 @@ const Create = (props) => {
                             required />
                         </div>
 
-                        <RichTextEditor
+                        {/* <RichTextEditor
                             value={data.body}
                             onChange={onBodyChanged}
                             onImageUpload={handleImageUpload}
                             style={{minHeight:"400px"}}
-                            className="w-full mt-4"
-                        />
-                        {/* <Editor
-                            onInit={(evt, editor) => editorRef.current = editor}
-                            initialValue={data.body}
                             apiKey="i4mwasxip6nx08ueqa0m0yi8yu42qg6es6y6t7w1iqkzt2r2"
+                            className="w-full mt-4"
+                        /> */}
+                         <Editor
+                            initialValue={editing ? article.body : ''}
+                            tinymceScriptSrc='/js/tinymce/tinymce.min.js'
                             init={{
                             height: 500,
                             menubar: false,
                             width:'100%',
-                            plugins: [
-                                'advlist autolink lists link image charmap print preview anchor',
-                                'searchreplace visualblocks code fullscreen',
-                                'insertdatetime media table paste code help wordcount'
-                            ],
+                            plugins: [ "image", "code", "table", "link", "media", "lists"],
                             toolbar1: 'undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl',
                             toolbar2: ' numlist bullist',
                             content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
                             }}
-                        /> */}
+                            onEditorChange={onBodyChanged}
+                        />
                         <input type="hidden" value={data.body} name="body" />
                         {showAdvanced &&
                         <div className="w-full flex justify-around mt-3 ml-1 mr-1">

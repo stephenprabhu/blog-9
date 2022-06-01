@@ -22,8 +22,4 @@ class DashboardController extends Controller
 
         return inertia('Dashboard/index',compact('postsCount','viewsCount','usersCount','commentsCount','popularPosts','recentComments'));
     }
-
-    public function testDeleteLater(){
-        return view('home');
-    }
 }
