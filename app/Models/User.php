@@ -69,7 +69,7 @@ class User extends Authenticatable
 
     public function imageUrl(): Attribute {
         return Attribute::make(
-            get: fn ($value) => $value ? Storage::disk('s3')->url($value) : null
+            get: fn ($value) => $value ? Storage::url($value) : null
         );
     }
 }

@@ -173,7 +173,7 @@ const Create = (props) => {
                             </div>
                         </div>
 
-                        <div className="w-full grid grid-cols-2 gap-4 mr-6">
+                        <div className="w-full grid grid-cols-2 gap-4 mr-6 mb-5">
                         <Select
                             label="Category"
                             data={categories.map(category=>(
@@ -238,9 +238,9 @@ const Create = (props) => {
                             height: 500,
                             menubar: false,
                             width:'100%',
-                            plugins: [ "image", "code", "table", "link", "media", "lists"],
-                            toolbar1: 'undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl',
-                            toolbar2: ' numlist bullist',
+                            plugins: [ "image", "code", "table", "link", "media", "lists", "searchreplace", "fullscreen", "pagebreak"],
+                            toolbar1: 'undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent | forecolor backcolor removeformat | fullscreen  preview save | ',
+                            toolbar2: ' numlist bullist | insertfile image media template link anchor codesample | pagebreak',
                             content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
                             }}
                             onEditorChange={onBodyChanged}

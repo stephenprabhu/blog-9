@@ -18,7 +18,7 @@ const Layout = ({ title, children }) => {
             <BottomHeader />
           </div>
           <div className="flex flex-grow overflow-hidden">
-            <MainMenu className="flex-shrink-0 hidden w-56 p-12 overflow-y-auto bg-indigo-800 md:block" />
+            <MainMenu className="flex-shrink-0 hidden w-56 p-12 bg-coolBlue overflow-y-auto md:block" />
             {/* To reset scroll region (https://inertiajs.com/pages#scroll-regions) add `scroll-region="true"` to div below */}
             <div className="w-full px-4 py-3 overflow-scroll md:p-12">
               <FlashMessages />

@@ -63,8 +63,10 @@ class UserController extends Controller
     public function update(UserUpdateRequest $request, User $user)
     {
         if($user->image_url){
-            Storage::disk('local')->delete($user->image_url);
+            $filePath = str_replace("storage","public",$user->image_url);
+            Storage::delete($filePath);
         }
+
         $validated = $request->validated();
 
         if($request->hasFile('image_url')){
@@ -78,6 +80,10 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
+        if($user->image_url){
+            $filePath = str_replace("storage","public",$user->image_url);
+            Storage::delete($filePath);
+        }
         $user->delete();
         return redirect()->route('users.index')->with('success','User Successfully Deleted!');
     }

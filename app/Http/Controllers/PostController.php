@@ -78,8 +78,8 @@ class PostController extends Controller
     public function update(PostUpdateRequest $request, Post $post)
     {
         if($post->featured_image){
-            Storage::delete($post->featured_image);
-            dd($post->featured_image);
+            $filePath = str_replace("storage","public",$post->featured_image);
+            Storage::delete($filePath);
         }
 
         $validated = $request->validated();
@@ -102,8 +102,10 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         if($post->featured_image){
-            Storage::delete($post->featured_image);
+            $filePath = str_replace("storage","public",$post->featured_image);
+            Storage::delete($filePath);
         }
+
         $post->comments()->delete();
         $post->delete();
         return redirect()->route('posts.index')->with('success','Post Deleted');

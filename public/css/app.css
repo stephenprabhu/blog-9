@@ -12064,14 +12064,14 @@ Ensure the default browser behavior of the `hidden` attribute.
 .mr-6 {
   margin-right: 1.5rem;
 }
+.mb-5 {
+  margin-bottom: 1.25rem;
+}
 .ml-1 {
   margin-left: 0.25rem;
 }
 .mt-5 {
   margin-top: 1.25rem;
-}
-.mb-5 {
-  margin-bottom: 1.25rem;
 }
 .-ml-px {
   margin-left: -1px;
@@ -12321,13 +12321,17 @@ Ensure the default browser behavior of the `hidden` attribute.
   --tw-bg-opacity: 1;
   background-color: rgb(237 242 247 / var(--tw-bg-opacity));
 }
-.bg-indigo-800 {
+.bg-coolBlue {
   --tw-bg-opacity: 1;
-  background-color: rgb(67 65 144 / var(--tw-bg-opacity));
+  background-color: rgb(47 143 157 / var(--tw-bg-opacity));
 }
 .bg-indigo-900 {
   --tw-bg-opacity: 1;
   background-color: rgb(60 54 107 / var(--tw-bg-opacity));
+}
+.bg-indigo-800 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(67 65 144 / var(--tw-bg-opacity));
 }
 .bg-gray-100 {
   --tw-bg-opacity: 1;

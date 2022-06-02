@@ -109,7 +109,8 @@ class CategoryController extends Controller
         ]);
 
         if($category->image_url){
-            Storage::disk('local')->delete($category->image_url);
+            $filePath = str_replace("storage","public",$category->image_url);
+            Storage::delete($filePath);
         }
 
         if($request->hasFile('image_url')){
@@ -130,8 +131,10 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         if($category->image_url){
-            Storage::disk('local')->delete($category->image_url);
+            $filePath = str_replace("storage","public",$category->image_url);
+            Storage::delete($filePath);
         }
+
         if($category->posts->count() > 0 ){
             return back()->with('fail','Category Could Not Be Deleted Because There Are Posts That Use The Category');
         }
